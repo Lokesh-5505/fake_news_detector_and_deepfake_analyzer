@@ -451,3 +451,41 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     }
   });
 });
+
+
+
+////////////// messege sending
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("formStatus");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value
+    };
+
+    status.textContent = "Sending...";
+
+    try {
+      const res = await fetch("", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        status.textContent = "✅ Message sent successfully!";
+        form.reset();
+      } else {
+        status.textContent = "❌ Failed to send. Try again later.";
+      }
+    } catch (err) {
+      status.textContent = "❌ Network error. Check your connection.";
+    }
+  });
+});
